@@ -26,12 +26,12 @@ window.SITE_CONFIG = {
   about: {
     title: "关于我",
     subtitle: "认识一下这个花园的主人",
-    greeting: "你好呀！很高兴认识你。> ⤙ <。",
-    content: "这里是我的个人小空间。我喜欢探索新技术，也喜欢把灵感变成真实的小作品。希望你能在这里发现一点有趣的东西。˗ˋˏᰔᩚˎˊ˗",
-    hobbies: ["⌨️ 编程", "🎨 绘画", "⛰️ 旅行", "🌱 持续学习"]
+    greeting: "你好呀！很高兴认识你。",
+    content: "这里是我的个人小空间。我喜欢探索新技术，也喜欢把灵感变成真实的小作品。希望你能在这里发现一点有趣的东西。",
+    hobbies: ["⌨️ 编程", "🎨 绘画", "🎧 音乐", "🌱 持续学习"]
   },
   projects: {
-    title: "花园角落的小制作",
+    title: "小小作品集",
     subtitle: "每一个项目，都是一次新的尝试",
     items: [
       {
@@ -42,29 +42,26 @@ window.SITE_CONFIG = {
         icon: "🌸"
       },
       {
-        name: "KiraAI Steam Plugin",
-        description: "把 Steam 接进聊天里的小插件：查游戏库存、好友列表和个人资料，顺手看一眼市场物价。",
-        tags: ["Python", "Plugin", "Steam"],
-        url: "https://github.com/ChuXia2004/kira-ai-plugin-steam",
-        icon: "🎮"
+        name: "我的第二个项目",
+        description: "在这里写下项目简介，可以介绍它解决了什么问题。",
+        tags: ["开发中", "Open Source"],
+        url: "https://github.com/",
+        icon: "🧸"
       },
       {
-        name: "KiraAI API Balance",
-        description: "一行命令查清 API 余额，支持 DeepSeek、硅基流动、Kimi 与自定义中转站。",
-        tags: ["Python", "Plugin", "API"],
-        url: "https://github.com/ChuXia2004/KiraAI-plugin-api-balance",
-        icon: "💰"
+        name: "灵感收集箱",
+        description: "记录日常灵感与有趣的小实验，让想法慢慢发芽。",
+        tags: ["实验", "Creative"],
+        url: "https://github.com/",
+        icon: "📒"
       }
     ]
   },
   skills: {
-    title: "我的工具架",
-    subtitle: "顺手，也还在学习",
-    items: ["HTML5", "CSS3", "JavaScript", "Python", "Markdown", "Git", "Clip Studio Paint"],
-    groups: [
-      ["HTML5", "CSS3", "JavaScript", "Python", "Markdown", "Git"],
-      ["Clip Studio Paint"]
-    ]
+    title: "我的工具箱",
+    subtitle: "正在学习，也持续探索",
+    rows: [["HTML5", "CSS3", "JavaScript", "Python", "Markdown"], ["Git", "Clip Studio Paint"]],
+    items: ["HTML5", "CSS3", "JavaScript", "Python", "Markdown", "Git", "Clip Studio Paint"]
   },
   github: {
     title: "在 GitHub 找到我",
@@ -76,10 +73,13 @@ window.SITE_CONFIG = {
     sakuraEnabled: true,
     darkModeEnabled: true,
     sakuraCount: 34,
-    sakuraSpeed: 1
+    sakuraSpeed: 1,
+    glassBlur: 2,
+    glassEdge: 0.25,
+    glassSaturation: 1.3
   },
   footer: {
-    message: "感谢你来到我的小花园。愿你也拥有温柔而闪亮的每一天(◍＞◡＜◍)。",
+    message: "感谢你来到我的小花园。愿你也拥有温柔而闪亮的每一天。",
     copyrightName: "初夏"
   }
 };

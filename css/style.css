@@ -40,15 +40,11 @@ body {
   margin: 0; background: var(--bg); color: var(--text);
   font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
   font-weight: 400; line-height: 1.8; overflow-x: hidden;
-  position: relative;
   transition: background .35s ease, color .35s ease;
 }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; }
-/* 樱花层：铺在页面背景之上、所有内容之下 */
-#sakura-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-/* 内容层：压在樱花层上方，这样卡片才透得出花瓣 */
-header, main, footer, nav, section { position: relative; z-index: 2; }
+#sakura-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; }
 .site-header {
   position: fixed; z-index: 20; top: 14px; left: 50%; transform: translateX(-50%);
   width: min(1120px, calc(100% - 40px)); min-height: 66px; padding: 0 25px;
@@ -117,8 +113,7 @@ header, main, footer, nav, section { position: relative; z-index: 2; }
 .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
 .tag { padding: 4px 9px; font-size: 10px; }
 .project-link { margin-top: 17px; color: var(--pink-deep); font-size: 12px; }
-.skills-list { display: flex; flex-direction: column; align-items: center; gap: 16px; max-width: 780px; margin: 0 auto; }
-.skill-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 13px; }
+.skills-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 13px; max-width: 780px; margin: 0 auto; }
 .skill-chip { padding: 12px 22px; background: var(--surface); font-size: 13px; box-shadow: 0 5px 18px rgba(157,112,123,.06); }
 .github-card { display: flex; flex-direction: column; gap: 25px; text-align: center; max-width: 720px; margin: 0 auto; }
 .github-profile { display: flex; align-items: center; gap: 13px; text-align: left; }
@@ -137,3 +132,7 @@ header, main, footer, nav, section { position: relative; z-index: 2; }
 .footer-top { display: inline-block; margin-top: 15px; color: var(--pink-deep); }
 .back-to-top { position: fixed; z-index: 15; right: 25px; bottom: 25px; width: 43px; height: 43px; border: 1px solid var(--border); border-radius: 15px; background: var(--surface); color: var(--pink-deep); box-shadow: var(--shadow); cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(10px); transition: .25s; }
 .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+/* 技能区采用明确的两行分组，避免桌面端自动换行造成错位。 */
+.skills-list { display: flex; flex-direction: column; align-items: center; gap: 18px; max-width: 900px; }
+.skill-row { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 13px; width: 100%; }
+.skill-chip { border-radius: 999px; padding: 12px 22px; }

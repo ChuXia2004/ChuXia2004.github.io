@@ -38,17 +38,17 @@
   });
 
   const skills = document.getElementById("skills-list");
-  const skillGroups = Array.isArray(cfg.skills?.groups) && cfg.skills.groups.length
-    ? cfg.skills.groups.map(group => Array.isArray(group) ? group : (group.items || []))
-    : [cfg.skills?.items || []];
-  skillGroups.forEach(groupItems => {
-    if (!groupItems.length) return;
-    const row = document.createElement("div"); row.className = "skill-row";
-    groupItems.forEach(skill => {
-      const span = document.createElement("span"); span.className = "skill-chip"; span.textContent = skill;
-      row.appendChild(span);
+  const skillRows = cfg.skills?.rows || [cfg.skills?.items || []];
+  skillRows.forEach((row, rowIndex) => {
+    const rowEl = document.createElement("div");
+    rowEl.className = `skill-row skill-row-${rowIndex + 1}`;
+    row.forEach(skill => {
+      const span = document.createElement("span");
+      span.className = "skill-chip";
+      span.textContent = skill;
+      rowEl.appendChild(span);
     });
-    skills?.appendChild(row);
+    skills?.appendChild(rowEl);
   });
 
   const copyright = document.getElementById("copyright");

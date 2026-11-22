@@ -36,3 +36,8 @@
   .stat strong { font-size: 22px; }
   .back-to-top { right: 15px; bottom: 15px; }
 }
+@media (max-width: 620px) {
+  .skills-list { gap: 12px; }
+  .skill-row { gap: 8px; }
+  .skill-chip { padding: 9px 15px; font-size: 12px; }
+}

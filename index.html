@@ -10,12 +10,15 @@
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/animation.css">
   <link rel="stylesheet" href="./css/responsive.css">
+  <link rel="stylesheet" href="./css/liquid-glass.css">
+  <link rel="stylesheet" href="./css/settings.css">
   <script src="./config/config.js"></script>
   <script src="./js/theme.js" defer></script>
   <script src="./js/sakura.js" defer></script>
   <script src="./js/github.js" defer></script>
   <script src="./js/scroll.js" defer></script>
   <script src="./js/main.js" defer></script>
+  <script src="./js/settings.js" defer></script>
 </head>
 <body>
   <canvas id="sakura-canvas" aria-hidden="true"></canvas>
@@ -32,8 +35,17 @@
     <div class="header-actions">
       <button class="icon-button" id="sakura-toggle" type="button" aria-label="关闭樱花效果" title="樱花开关">🌸</button>
       <button class="icon-button" id="theme-toggle" type="button" aria-label="切换夜间模式" title="切换主题">🌙</button>
+      <button class="settings-flower-button" id="settings-toggle" type="button" aria-label="打开玻璃调参" aria-expanded="false" aria-controls="glass-settings" title="玻璃调参"><img src="./assets/icons/sakura-settings.svg" alt=""></button>
     </div>
   </header>
+
+  <aside class="settings-panel glass-panel" id="glass-settings" aria-label="玻璃效果调参" hidden>
+    <div class="settings-panel-heading"><div><span class="settings-kicker">SAKURA GLASS</span><h2>玻璃调参</h2></div><button class="settings-close" id="settings-close" type="button" aria-label="关闭设置">×</button></div>
+    <label class="setting-control"><span>背景模糊 <output id="blur-value">2px</output></span><input id="glass-blur" type="range" min="0" max="12" step="0.5" value="2"></label>
+    <label class="setting-control"><span>边缘反射 <output id="edge-value">0.25</output></span><input id="glass-edge" type="range" min="0" max="1" step="0.01" value="0.25"></label>
+    <label class="setting-control"><span>背景饱和度 <output id="saturation-value">1.3</output></span><input id="glass-saturation" type="range" min="0.5" max="2" step="0.05" value="1.3"></label>
+    <div class="settings-panel-footer"><span>更改会自动保存</span><button id="settings-reset" type="button">恢复默认</button></div>
+  </aside>
 
   <main>
     <section class="hero section" id="home">
@@ -70,8 +82,8 @@
           <span class="about-location" data-config="profile.tagline">保持好奇，慢慢生长。</span>
         </div>
         <div class="about-copy">
-          <h3 data-config="about.greeting">你好呀！很高兴认识你。&gt; ⤙ &lt;</h3>
-          <p data-config="about.content">这里是我的个人小空间。我喜欢探索新技术，也喜欢把灵感变成真实的小作品。希望你能在这里发现一点有趣的东西˗ˋˏᰔᩚˎˊ˗。</p>
+          <h3 data-config="about.greeting">你好呀！很高兴认识你。</h3>
+          <p data-config="about.content">这里是我的个人小空间。我喜欢探索新技术，也喜欢把灵感变成真实的小作品。希望你能在这里发现一点有趣的东西。</p>
           <div class="hobby-list" id="hobby-list"></div>
         </div>
       </div>
@@ -79,8 +91,8 @@
 
     <section class="section projects-section" id="projects">
       <div class="section-heading reveal">
-        <p class="eyebrow">LITTLE MAKINGS IN THE GARDEN</p>
-        <h2 data-config="projects.title">花园角落的小制作</h2>
+        <p class="eyebrow">THINGS I'VE MADE</p>
+        <h2 data-config="projects.title">小小作品集</h2>
         <p data-config="projects.subtitle">每一个项目，都是一次新的尝试</p>
         <span class="heading-flower">✿</span>
       </div>
@@ -89,9 +101,9 @@
 
     <section class="section skills-section" id="skills">
       <div class="section-heading reveal">
-        <p class="eyebrow">MY TOOL SHELF</p>
-        <h2 data-config="skills.title">我的工具架</h2>
-        <p data-config="skills.subtitle">顺手，也还在学习</p>
+        <p class="eyebrow">TOOLS IN MY GARDEN</p>
+        <h2 data-config="skills.title">我的工具箱</h2>
+        <p data-config="skills.subtitle">正在学习，也持续探索</p>
         <span class="heading-flower">✿</span>
       </div>
       <div class="skills-list reveal" id="skills-list"></div>

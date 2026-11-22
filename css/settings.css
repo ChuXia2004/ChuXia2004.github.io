@@ -1,0 +1,29 @@
+.settings-flower-button {
+  width: 38px; height: 38px; display: grid; place-items: center; padding: 7px;
+  border: 1px solid transparent; border-radius: 50%; background: transparent; cursor: pointer;
+  transition: background .25s ease, border-color .25s ease, transform .35s ease;
+}
+.settings-flower-button img { display: block; width: 23px; height: 23px; filter: drop-shadow(0 1px 3px rgba(211,139,166,.18)); }
+.settings-flower-button:hover { background: rgba(244,199,215,.15); border-color: var(--border); transform: rotate(18deg); }
+.settings-panel {
+  position: fixed; z-index: 50; top: 91px; right: max(22px, calc((100vw - 1120px)/2));
+  width: min(310px, calc(100vw - 28px)); padding: 19px; border: 1px solid var(--border);
+  border-radius: 20px; color: var(--text); background: var(--header-bg); box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(18px) saturate(1.35); backdrop-filter: blur(18px) saturate(1.35);
+}
+.settings-panel[hidden] { display: none; }
+.settings-panel-heading { display:flex; align-items:center; justify-content:space-between; margin-bottom:17px; }
+.settings-kicker { color:var(--pink-deep); font:10px/1.4 "Playfair Display",serif; letter-spacing:.18em; }
+.settings-panel-heading h2 { margin:2px 0 0; color:var(--text-strong); font-size:17px; font-weight:500; }
+.settings-close { width:28px; height:28px; border:0; border-radius:50%; background:var(--pink-light); color:var(--pink-deep); font-size:21px; cursor:pointer; }
+.setting-control { display:block; margin:14px 0; }
+.setting-control > span { display:flex; justify-content:space-between; gap:12px; margin-bottom:8px; color:var(--text); font-size:12px; }
+.setting-control output { color:var(--pink-deep); font-variant-numeric:tabular-nums; }
+.setting-control input { display:block; width:100%; accent-color:var(--pink-deep); }
+.settings-panel-footer { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:17px; padding-top:13px; border-top:1px solid var(--border); color:var(--muted); font-size:10px; }
+.settings-panel-footer button { padding:6px 11px; border:1px solid var(--border); border-radius:999px; background:var(--surface); color:var(--pink-deep); font-size:11px; cursor:pointer; }
+@media (max-width:620px) {
+  .settings-flower-button { width:34px; height:34px; padding:6px; }
+  .settings-flower-button img { width:21px; height:21px; }
+  .settings-panel { top:76px; right:12px; width:min(290px,calc(100vw - 24px)); padding:16px; }
+}

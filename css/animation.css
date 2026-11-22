@@ -1,79 +1,9 @@
 /* 页面滚动进入视口时的轻柔显现 */
 .reveal { opacity: 0; transform: translateY(22px); transition: opacity .75s ease, transform .75s ease; }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
+.project-card { animation: soft-arrive .6s both; }
+@keyframes soft-arrive { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
   .reveal { opacity: 1; transform: none; }
-}
-
-/* 玻璃质感卡片：透出背后飘落的花瓣 */
-.about-card,
-.github-card,
-.project-card {
-  background: rgba(255, 255, 255, 0.42);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: 0 8px 25px rgba(120, 80, 90, 0.08);
-}
-
-[data-theme="dark"] .about-card,
-[data-theme="dark"] .github-card,
-[data-theme="dark"] .project-card {
-  background: rgba(35, 32, 42, 0.48);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-}
-
-/* 页面淡入交给 html::before 的雾层，body 上不做 opacity 动画，否则会破坏卡片的毛玻璃采样 */
-/* 顶部导航轻轻落下 */
-.site-header { animation: header-drop .7s cubic-bezier(.22,.9,.3,1) both; }
-@keyframes header-drop {
-  from { opacity: 0; transform: translate(-50%, -14px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
-}
-
-/* 首屏分层入场：整体不位移，内部元素依次上浮淡入 */
-.hero-content.reveal { opacity: 1; transform: none; transition: none; }
-.hero-content > * { opacity: 0; animation: hero-rise .9s cubic-bezier(.22,.9,.3,1) forwards; }
-.hero-content > :nth-child(1) { animation-delay: .12s; }
-.hero-content > :nth-child(2) { animation-delay: .21s; }
-.hero-content > :nth-child(3) { animation-delay: .30s; }
-.hero-content > :nth-child(4) { animation-delay: .39s; }
-.hero-content > :nth-child(5) { animation-delay: .48s; }
-.hero-content > :nth-child(6) { animation-delay: .57s; }
-@keyframes hero-rise {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* 两侧装饰花瓣稍晚绽放 */
-.hero-decoration { animation: flower-in 1.1s ease-out .55s both; }
-@keyframes flower-in {
-  from { opacity: 0; transform: scale(.8) rotate(-12deg); }
-  to { opacity: .35; transform: scale(1) rotate(0); }
-}
-
-/* 开门雾：整页一层极淡的雾，0.75 秒散开，纯 opacity 合成，手机也顺 */
-html::before {
-  content: "";
-  position: fixed; inset: 0; z-index: 999;
-  pointer-events: none;
-  background: radial-gradient(circle at 50% 42%, #ffffff 0%, #fff8f9 62%, #fdeef2 100%);
-  will-change: opacity;
-  animation: veil-dissolve .75s cubic-bezier(.4,0,.2,1) both;
-}
-html[data-theme="dark"]::before {
-  background: radial-gradient(circle at 50% 42%, #22202b 0%, #1b1922 60%, #2a2230 100%);
-}
-@keyframes veil-dissolve {
-  0% { opacity: .9; }
-  60% { opacity: .28; }
-  100% { opacity: 0; visibility: hidden; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body, .site-header, .hero-content > *, .hero-decoration { animation: none !important; }
-  .hero-content > * { opacity: 1; }
-  html::before { animation: none !important; opacity: 0 !important; visibility: hidden; }
 }
