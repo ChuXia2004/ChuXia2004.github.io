@@ -72,7 +72,7 @@ window.SITE_CONFIG = {
   settings: {
     sakuraEnabled: true,
     darkModeEnabled: true,
-    sakuraCount: 34,
+    sakuraCount: 0, // 0 = 按屏幕面积自动计算(42~78片)，填数字则固定数量
     sakuraSpeed: 1,
     glassBlur: 2,
     glassEdge: 0.25,
