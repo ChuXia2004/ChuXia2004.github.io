@@ -5,8 +5,14 @@
   --glass-edge-alpha: .25;
   --glass-saturation: 1.3;
 }
-#sakura-canvas { z-index: 0; }
-.site-header, .about-card, .project-card, .github-card, .skill-chip {
+#sakura-canvas {
+  z-index: 0;
+  will-change: transform;
+  transform: translateZ(0);
+  contain: strict;
+}
+/* 只对面积较大的容器做背景模糊；技能标签数量多，逐个模糊会明显拖慢滚动，改用纯半透明底。 */
+.site-header, .about-card, .project-card, .github-card {
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
 }
