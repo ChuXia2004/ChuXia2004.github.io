@@ -19,6 +19,7 @@
   .icon-button { width: 33px; height: 33px; }
   .section { width: calc(100% - 34px); padding: 76px 0; }
   .hero { min-height: 92vh; padding-top: 110px; }
+  .hero-glow { width: min(430px, 94vw); height: min(430px, 94vw); filter: blur(12px); }
   .hero h1 { font-size: clamp(27px, 8vw, 38px); }
   .hero-description { max-width: 290px; margin-left: auto; margin-right: auto; font-size: 13px; }
   .scroll-hint { margin-top: 48px; }
