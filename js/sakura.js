@@ -51,17 +51,36 @@
     };
   }
 
-  // Canvas 尺寸只在初始化和窗口变化时设置
+  // Canvas 尺寸只在初始化和窗口变化时设置，花瓣对象不重建
   function resizeCanvas() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    w = window.innerWidth;
-    h = window.innerHeight;
+    const nextDpr = Math.min(window.devicePixelRatio || 1, 2);
+    const nextW = window.innerWidth;
+    const nextH = window.innerHeight;
+
+    // 手机滚动时地址栏收放会连续触发 resize，尺寸没真变就直接跳过
+    if (nextW === w && nextH === h && nextDpr === dpr) return;
+
+    dpr = nextDpr;
+    w = nextW;
+    h = nextH;
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     canvas.style.width = w + "px";
     canvas.style.height = h + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    petals = Array.from({ length: targetCount() }, () => createPetal(false));
+
+    // 只在第一次创建花瓣；之后视口变化只把跑出边界的花瓣夹回来
+    if (!petals.length) {
+      petals = Array.from({ length: targetCount() }, () => createPetal(false));
+      return;
+    }
+    for (let i = 0; i < petals.length; i++) {
+      const p = petals[i];
+      if (p.x > w + p.size) p.x = w * 0.5 + (Math.random() - 0.5) * w;
+      else if (p.x < -p.size) p.x = Math.random() * w;
+      if (p.y > h + p.size) p.y = Math.random() * h;
+      else if (p.y < -p.size) p.y = -p.size;
+    }
   }
 
   function updatePetal(p, dt) {
