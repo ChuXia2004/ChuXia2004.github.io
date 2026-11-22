@@ -38,18 +38,18 @@
   });
 
   const skills = document.getElementById("skills-list");
-  const skillItems = cfg.skills?.items || [];
-  if (skills) {
-    // 桌面端按设计稿固定分两行：前五项一行，其余项目居中显示。
-    [skillItems.slice(0, 5), skillItems.slice(5)].filter(row => row.length).forEach(items => {
-      const row = document.createElement("div"); row.className = "skills-row";
-      items.forEach(skill => {
-        const span = document.createElement("span"); span.className = "skill-chip"; span.textContent = skill;
-        row.appendChild(span);
-      });
-      skills.appendChild(row);
+  const skillRows = cfg.skills?.rows || [cfg.skills?.items || []];
+  skillRows.forEach((row, rowIndex) => {
+    const rowEl = document.createElement("div");
+    rowEl.className = `skill-row skill-row-${rowIndex + 1}`;
+    row.forEach(skill => {
+      const span = document.createElement("span");
+      span.className = "skill-chip";
+      span.textContent = skill;
+      rowEl.appendChild(span);
     });
-  }
+    skills?.appendChild(rowEl);
+  });
 
   const copyright = document.getElementById("copyright");
   if (copyright) copyright.textContent = `© ${new Date().getFullYear()} ${cfg.footer?.copyrightName || cfg.profile?.name || ""} · Made with love`;

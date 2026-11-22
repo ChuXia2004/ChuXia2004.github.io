@@ -60,6 +60,7 @@ window.SITE_CONFIG = {
   skills: {
     title: "我的工具箱",
     subtitle: "正在学习，也持续探索",
+    rows: [["HTML5", "CSS3", "JavaScript", "Python", "Markdown"], ["Git", "Clip Studio Paint"]],
     items: ["HTML5", "CSS3", "JavaScript", "Python", "Markdown", "Git", "Clip Studio Paint"]
   },
   github: {
@@ -72,7 +73,10 @@ window.SITE_CONFIG = {
     sakuraEnabled: true,
     darkModeEnabled: true,
     sakuraCount: 34,
-    sakuraSpeed: 1
+    sakuraSpeed: 1,
+    glassBlur: 2,
+    glassEdge: 0.25,
+    glassSaturation: 1.3
   },
   footer: {
     message: "感谢你来到我的小花园。愿你也拥有温柔而闪亮的每一天。",
