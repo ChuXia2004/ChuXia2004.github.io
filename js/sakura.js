@@ -1,7 +1,7 @@
 (() => {
   const canvas = document.getElementById("sakura-canvas");
   const button = document.getElementById("sakura-toggle");
-  const ctx = canvas?.getContext("2d", { alpha: true, desynchronized: true });
+  const ctx = canvas?.getContext("2d");
   if (!canvas || !ctx) return;
 
   const config = window.SITE_CONFIG?.settings || {};
@@ -9,97 +9,51 @@
   const fixedCount = Number(config.sakuraCount);
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const SPRITE_R = 10;
-  const SPRITE_PAD = 14;
-  const SPRITE_SIZE = (SPRITE_R + SPRITE_PAD) * 2;
-  const SPRITE_SCALE = 2;
-  const HUES = [-6, -3, 0, 3, 6];
-
   let dpr = 1, w = 0, h = 0;
   let petals = [];
-  let sprites = [];
   let running = config.sakuraEnabled !== false;
-  let rafId = 0;
+  let animationId = null;
   let lastTime = 0;
-  let fps = 60;
-  let quality = 1;
-
-  function makeSprite(hue) {
-    const c = document.createElement("canvas");
-    c.width = SPRITE_SIZE * SPRITE_SCALE;
-    c.height = SPRITE_SIZE * SPRITE_SCALE;
-    const g = c.getContext("2d");
-    g.scale(SPRITE_SCALE, SPRITE_SCALE);
-    g.translate(SPRITE_SIZE / 2, SPRITE_SIZE / 2);
-
-    const r = SPRITE_R;
-    const grad = g.createLinearGradient(-r * 0.7, -r, -r * 0.15, r * 1.2);
-    grad.addColorStop(0, `hsla(${342 + hue},78%,96%,1)`);
-    grad.addColorStop(0.42, `hsla(${340 + hue},66%,85%,1)`);
-    grad.addColorStop(1, `hsla(${334 + hue},58%,72%,1)`);
-
-    g.beginPath();
-    g.moveTo(0, r * 1.15);
-    g.bezierCurveTo(-r * 0.16, r * 0.78, -r * 0.92, r * 0.12, -r * 0.68, -r * 0.48);
-    g.bezierCurveTo(-r * 0.48, -r * 1.08, -r * 0.08, -r * 1.08, 0, -r * 0.82);
-    g.bezierCurveTo(r * 0.12, -r * 1.12, r * 0.56, -r * 0.98, r * 0.72, -r * 0.48);
-    g.bezierCurveTo(r * 0.95, r * 0.12, r * 0.18, r * 0.82, 0, r * 1.15);
-    g.closePath();
-
-    g.fillStyle = grad;
-    g.shadowColor = "rgba(197,111,139,0.16)";
-    g.shadowBlur = 3;
-    g.fill();
-    g.shadowBlur = 0;
-
-    g.beginPath();
-    g.moveTo(0, r * 0.92);
-    g.quadraticCurveTo(r * 0.05, 0, 0, -r * 0.82);
-    g.strokeStyle = "rgba(183,103,131,0.30)";
-    g.lineWidth = 0.55;
-    g.stroke();
-
-    g.beginPath();
-    g.moveTo(0, r * 0.18);
-    g.quadraticCurveTo(-r * 0.24, -r * 0.02, -r * 0.42, -r * 0.36);
-    g.moveTo(0, r * 0.12);
-    g.quadraticCurveTo(r * 0.25, -r * 0.05, r * 0.43, -r * 0.35);
-    g.strokeStyle = "rgba(255,255,255,0.38)";
-    g.lineWidth = 0.45;
-    g.stroke();
-
-    return c;
-  }
-
-  function buildSprites() {
-    if (!sprites.length) sprites = HUES.map(makeSprite);
-  }
 
   function targetCount() {
-    const base = (Number.isFinite(fixedCount) && fixedCount > 0)
-      ? Math.max(1, Math.min(160, Math.round(fixedCount)))
-      : Math.max(42, Math.min(78, Math.round((w * h) / 14500)));
-    return Math.max(8, Math.round(base * quality));
+    if (Number.isFinite(fixedCount) && fixedCount > 0) {
+      return Math.max(1, Math.min(160, Math.round(fixedCount)));
+    }
+    return Math.max(42, Math.min(78, Math.round((w * h) / 14500)));
   }
 
+  // 花瓣的属性只在创建时算一次，动画里只更新位置和角度
   function createPetal(fromTop = false) {
+    const r = 3.8 + Math.random() * 5.8;
+    const alpha = 0.34 + Math.random() * 0.42;
+    const hue = Math.random() * 12 - 6;
+    const size = 22;
     return {
       x: Math.random() * w,
-      y: fromTop ? -SPRITE_SIZE : Math.random() * h,
-      r: 3.8 + Math.random() * 5.8,
-      vy: (21 + Math.random() * 49) * speed,
+      y: fromTop ? -size : Math.random() * h,
+      r: r,
+      size: size,
+      vy: (0.35 + Math.random() * 0.82) * 60 * speed,
       drift: (-0.34 + Math.random() * 0.68) * 60,
       rot: Math.random() * Math.PI * 2,
-      spin: (Math.random() - 0.5) * 0.75,
-      alpha: 0.34 + Math.random() * 0.42,
-      phase: Math.random() * Math.PI * 2,
+      spin: (Math.random() - 0.5) * 1.5,
       flip: Math.random() * Math.PI * 2,
-      sprite: Math.floor(Math.random() * HUES.length)
+      alpha: alpha,
+      phase: Math.random() * Math.PI * 2,
+      fade: alpha * 0.88,
+      veinAlpha: alpha * 0.30,
+      lightAlpha: alpha * 0.38,
+      color0: `hsla(${342 + hue},78%,96%,${alpha})`,
+      color1: `hsla(${340 + hue},66%,85%,${alpha})`,
+      color2: `hsla(${334 + hue},58%,72%,${alpha * 0.88})`,
+      veinColor: `rgba(183,103,131,${alpha * 0.30})`,
+      lightColor: `rgba(255,255,255,${alpha * 0.38})`
     };
   }
 
-  function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  // Canvas 尺寸只在初始化和窗口变化时设置
+  function resizeCanvas() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
     w = window.innerWidth;
     h = window.innerHeight;
     canvas.width = Math.round(w * dpr);
@@ -108,7 +62,6 @@
     canvas.style.height = h + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     petals = Array.from({ length: targetCount() }, () => createPetal(false));
-    drawFrame(0);
   }
 
   function updatePetal(p, dt) {
@@ -117,70 +70,87 @@
     p.rot += p.spin * dt;
     p.flip += (1.08 + p.vy * 0.006) * dt;
 
-    if (p.y > h + SPRITE_SIZE) {
-      p.y = -SPRITE_SIZE;
+    if (p.y > h + p.size) {
+      p.y = -p.size;
       p.x = Math.random() * w;
     }
-    if (p.x > w + SPRITE_SIZE) p.x = -SPRITE_SIZE;
-    if (p.x < -SPRITE_SIZE) p.x = w + SPRITE_SIZE;
+    if (p.x > w + p.size) p.x = -p.size;
+    if (p.x < -p.size) p.x = w + p.size;
   }
 
   function drawPetal(p) {
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+
     const squash = 0.58 + 0.42 * Math.abs(Math.cos(p.flip));
-    const k = p.r / SPRITE_R;
-    const dw = SPRITE_SIZE * k * squash;
-    const dh = SPRITE_SIZE * k;
-    const cs = Math.cos(p.rot), sn = Math.sin(p.rot);
+    ctx.scale(squash, 1);
 
-    ctx.setTransform(
-      cs * dpr * (dw / SPRITE_SIZE), sn * dpr * (dw / SPRITE_SIZE),
-      -sn * dpr * (dh / SPRITE_SIZE), cs * dpr * (dh / SPRITE_SIZE),
-      p.x * dpr, p.y * dpr
-    );
-    ctx.globalAlpha = p.alpha;
-    ctx.drawImage(sprites[p.sprite], -SPRITE_SIZE / 2, -SPRITE_SIZE / 2, SPRITE_SIZE, SPRITE_SIZE);
+    const r = p.r;
+    const grad = ctx.createLinearGradient(-r * 0.7, -r, -r * 0.15, r * 1.2);
+    grad.addColorStop(0, p.color0);
+    grad.addColorStop(0.42, p.color1);
+    grad.addColorStop(1, p.color2);
+
+    ctx.beginPath();
+    ctx.moveTo(0, r * 1.15);
+    ctx.bezierCurveTo(-r * 0.16, r * 0.78, -r * 0.92, r * 0.12, -r * 0.68, -r * 0.48);
+    ctx.bezierCurveTo(-r * 0.48, -r * 1.08, -r * 0.08, -r * 1.08, 0, -r * 0.82);
+    ctx.bezierCurveTo(r * 0.12, -r * 1.12, r * 0.56, -r * 0.98, r * 0.72, -r * 0.48);
+    ctx.bezierCurveTo(r * 0.95, r * 0.12, r * 0.18, r * 0.82, 0, r * 1.15);
+    ctx.closePath();
+
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(0, r * 0.92);
+    ctx.quadraticCurveTo(r * 0.05, 0, 0, -r * 0.82);
+    ctx.strokeStyle = p.veinColor;
+    ctx.lineWidth = 0.55;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(0, r * 0.18);
+    ctx.quadraticCurveTo(-r * 0.24, -r * 0.02, -r * 0.42, -r * 0.36);
+    ctx.moveTo(0, r * 0.12);
+    ctx.quadraticCurveTo(r * 0.25, -r * 0.05, r * 0.43, -r * 0.35);
+    ctx.strokeStyle = p.lightColor;
+    ctx.lineWidth = 0.45;
+    ctx.stroke();
+
+    ctx.restore();
   }
 
-  function drawFrame(dt) {
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    for (let i = 0; i < petals.length; i++) {
-      const p = petals[i];
-      if (dt > 0) updatePetal(p, dt);
-      drawPetal(p);
-    }
-    ctx.globalAlpha = 1;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  function drawPetals() {
+    ctx.clearRect(0, 0, w, h);
+    for (let i = 0; i < petals.length; i++) drawPetal(petals[i]);
   }
 
-  function adapt(dt) {
-    const inst = 1 / Math.max(dt, 0.001);
-    fps = fps * 0.9 + inst * 0.1;
-    if (fps < 45 && quality > 0.5) {
-      quality = 0.5;
-      petals = petals.slice(0, targetCount());
-    } else if (fps > 57 && quality < 1) {
-      quality = 1;
-      while (petals.length < targetCount()) petals.push(createPetal(false));
-    }
-  }
-
-  function frame(timestamp) {
-    rafId = requestAnimationFrame(frame);
-    if (document.hidden) return;
+  function animate(timestamp) {
     if (!lastTime) lastTime = timestamp;
-    let dt = (timestamp - lastTime) / 1000;
+
+    // 计算两帧之间的时间差，夹住上限避免切换回来时花瓣瞬移
+    const deltaTime = Math.min(timestamp - lastTime, 32) / 1000;
     lastTime = timestamp;
-    if (dt > 0.05) dt = 0.05;
-    if (dt > 0) adapt(dt);
-    drawFrame(dt);
+
+    for (let i = 0; i < petals.length; i++) updatePetal(petals[i], deltaTime);
+    drawPetals();
+
+    animationId = requestAnimationFrame(animate);
   }
 
-  function start() {
-    if (!rafId && running && !document.hidden && !reducedMotion) {
+  function startAnimation() {
+    if (!animationId && running && !document.hidden && !reducedMotion) {
       lastTime = 0;
-      rafId = requestAnimationFrame(frame);
+      animationId = requestAnimationFrame(animate);
+    }
+  }
+
+  function stopAnimation() {
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
     }
   }
 
@@ -192,27 +162,22 @@
       button.setAttribute("aria-label", running ? "关闭樱花效果" : "开启樱花效果");
       button.title = running ? "关闭樱花效果" : "开启樱花效果";
     }
-    if (running) start();
-    else if (rafId) {
-      cancelAnimationFrame(rafId);
-      rafId = 0;
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (running) startAnimation();
+    else {
+      stopAnimation();
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
     }
   }
 
   button?.addEventListener("click", () => setRunning(!running));
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
-    } else {
-      start();
-    }
+    if (document.hidden) stopAnimation();
+    else startAnimation();
   });
-  window.addEventListener("resize", resize);
+  window.addEventListener("resize", resizeCanvas);
 
-  buildSprites();
-  resize();
+  resizeCanvas();
   if (reducedMotion) setRunning(false);
-  else { setRunning(running); start(); }
+  else { setRunning(running); startAnimation(); }
 })();
