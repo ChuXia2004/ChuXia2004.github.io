@@ -28,10 +28,10 @@ window.SITE_CONFIG = {
     subtitle: "认识一下这个花园的主人",
     greeting: "你好呀！很高兴认识你。",
     content: "这里是我的个人小空间。我喜欢探索新技术，也喜欢把灵感变成真实的小作品。希望你能在这里发现一点有趣的东西。",
-    hobbies: ["⌨️ 编程", "🎨 绘画", "🎧 音乐", "🌱 持续学习"]
+    hobbies: ["⌨️ 编程", "🎨 绘画", "🏔️ 旅行", "🌱 持续学习"]
   },
   projects: {
-    title: "小小作品集",
+    title: "花园角落的小制作",
     subtitle: "每一个项目，都是一次新的尝试",
     items: [
       {
@@ -42,24 +42,24 @@ window.SITE_CONFIG = {
         icon: "🌸"
       },
       {
-        name: "我的第二个项目",
-        description: "在这里写下项目简介，可以介绍它解决了什么问题。",
-        tags: ["开发中", "Open Source"],
-        url: "https://github.com/",
-        icon: "🧸"
+        name: "Steam 插件",
+        description: "给数字生命接上 Steam：查游戏库存、好友列表、个人资料，还能看社区市场行情与历史成交。",
+        tags: ["KiraAI", "Python", "Steam API"],
+        url: "https://github.com/ChuXia2004/kira-ai-plugin-steam",
+        icon: "🎮"
       },
       {
-        name: "灵感收集箱",
-        description: "记录日常灵感与有趣的小实验，让想法慢慢发芽。",
-        tags: ["实验", "Creative"],
-        url: "https://github.com/",
-        icon: "📒"
+        name: "API 余额插件",
+        description: "一句话查余额，支持 DeepSeek、硅基流动、Kimi，以及自定义中转站。",
+        tags: ["KiraAI", "Python", "API"],
+        url: "https://github.com/ChuXia2004/KiraAI-plugin-api-balance",
+        icon: "💰"
       }
     ]
   },
   skills: {
-    title: "我的工具箱",
-    subtitle: "正在学习，也持续探索",
+    title: "我的工具架",
+    subtitle: "顺手，也还在学习",
     rows: [["HTML5", "CSS3", "JavaScript", "Python", "Markdown"], ["Git", "Clip Studio Paint"]],
     items: ["HTML5", "CSS3", "JavaScript", "Python", "Markdown", "Git", "Clip Studio Paint"]
   },
