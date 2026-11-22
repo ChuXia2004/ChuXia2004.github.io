@@ -10,8 +10,6 @@
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/animation.css">
   <link rel="stylesheet" href="./css/responsive.css">
-  <link rel="stylesheet" href="./css/liquid-glass.css">
-  <link rel="stylesheet" href="./css/settings.css">
   <script src="./config/config.js"></script>
   <script src="./js/theme.js" defer></script>
   <script src="./js/sakura.js" defer></script>
@@ -35,17 +33,17 @@
     <div class="header-actions">
       <button class="icon-button" id="sakura-toggle" type="button" aria-label="关闭樱花效果" title="樱花开关">🌸</button>
       <button class="icon-button" id="theme-toggle" type="button" aria-label="切换夜间模式" title="切换主题">🌙</button>
-      <button class="settings-flower-button" id="settings-toggle" type="button" aria-label="打开玻璃调参" aria-expanded="false" aria-controls="glass-settings" title="玻璃调参"><img src="./assets/icons/sakura-settings.svg" alt=""></button>
+      <button class="icon-button sakura-settings-button" id="settings-toggle" type="button" aria-label="打开玻璃调参" title="玻璃调参" aria-expanded="false">
+        <svg class="sakura-settings-icon" viewBox="0 0 40 40" aria-hidden="true"><g fill="currentColor"><path d="M20 18.2C15.7 13.8 14.6 6.7 18.4 2.2c.8-1 2.4-1 3.2 0 3.8 4.5 2.7 11.6-1.6 16z"/><path d="M21.8 20C26.2 15.7 33.3 14.6 37.8 18.4c1 .8 1 2.4 0 3.2-4.5 3.8-11.6 2.7-16-1.6z"/><path d="M20 21.8c4.3 4.4 5.4 11.5 1.6 16- .8 1-2.4 1-3.2 0-3.8-4.5-2.7-11.6 1.6-16z"/><path d="M18.2 20C13.8 24.3 6.7 25.4 2.2 21.6c-1-.8-1-2.4 0-3.2 4.5-3.8 11.6-2.7 16 1.6z"/><path d="M18.7 18.7C17.8 12.8 21 7.1 26.6 6.2c1.2-.2 2.1.7 1.9 1.9-.9 5.6-6.6 8.8-9.8 10.6z" transform="rotate(72 20 20)"/><path d="M18.7 18.7C17.8 12.8 21 7.1 26.6 6.2c1.2-.2 2.1.7 1.9 1.9-.9 5.6-6.6 8.8-9.8 10.6z" transform="rotate(144 20 20)"/></g><circle cx="20" cy="20" r="2.1" fill="var(--bg)"/></svg>
+      </button>
+      <div class="settings-panel" id="settings-panel" hidden>
+        <div class="settings-panel-heading"><span>✿</span><strong>玻璃效果调节</strong></div>
+        <label>背景模糊 <output id="blur-value">2px</output><input id="glass-blur" type="range" min="0" max="16" step="0.5" value="2"></label>
+        <label>边缘反射 <output id="reflection-value">0.25</output><input id="glass-reflection" type="range" min="0" max="0.8" step="0.01" value="0.25"></label>
+        <label>背景饱和度 <output id="saturation-value">1.3</output><input id="glass-saturation" type="range" min="0.5" max="2" step="0.05" value="1.3"></label>
+      </div>
     </div>
   </header>
-
-  <aside class="settings-panel glass-panel" id="glass-settings" aria-label="玻璃效果调参" hidden>
-    <div class="settings-panel-heading"><div><span class="settings-kicker">SAKURA GLASS</span><h2>玻璃调参</h2></div><button class="settings-close" id="settings-close" type="button" aria-label="关闭设置">×</button></div>
-    <label class="setting-control"><span>背景模糊 <output id="blur-value">2px</output></span><input id="glass-blur" type="range" min="0" max="12" step="0.5" value="2"></label>
-    <label class="setting-control"><span>边缘反射 <output id="edge-value">0.25</output></span><input id="glass-edge" type="range" min="0" max="1" step="0.01" value="0.25"></label>
-    <label class="setting-control"><span>背景饱和度 <output id="saturation-value">1.3</output></span><input id="glass-saturation" type="range" min="0.5" max="2" step="0.05" value="1.3"></label>
-    <div class="settings-panel-footer"><span>更改会自动保存</span><button id="settings-reset" type="button">恢复默认</button></div>
-  </aside>
 
   <main>
     <section class="hero section" id="home">
